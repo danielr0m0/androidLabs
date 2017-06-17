@@ -1,3 +1,3 @@
-# Android Labs
+# Android Labs and HomeWork will go here
 
-#### Labs will go here with folders
+#### each Labs and Homework will be in different folders 
