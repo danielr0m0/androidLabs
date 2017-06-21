@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     // (7) Override onOptionsItemSelected to handle clicks on the refresh button
 
     @Override
