@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 
 public class NetworkUtils {
-    //https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=7369b6d11aad4d7899f70be9cae53ff8
+    //https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=
     public static final String NEWS_BASE_URL=
             "https://newsapi.org/v1/articles";
 
@@ -30,8 +30,10 @@ public class NetworkUtils {
 
     public static final String PARAM_APIKEY=
             "apiKey";
+
+//    TODO insert your apikey here
     public  static final String apiKey=
-            "7369b6d11aad4d7899f70be9cae53ff8";
+            "";
 
     public static URL buildUrl(){
         Uri uri = Uri.parse(NEWS_BASE_URL).buildUpon()
