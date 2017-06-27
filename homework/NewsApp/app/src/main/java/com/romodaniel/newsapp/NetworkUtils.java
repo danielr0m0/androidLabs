@@ -33,7 +33,7 @@ public class NetworkUtils {
 
 //    TODO insert your apikey here
     public  static final String apiKey=
-            "";
+            "7369b6d11aad4d7899f70be9cae53ff8";
 
     public static URL buildUrl(){
         Uri uri = Uri.parse(NEWS_BASE_URL).buildUpon()
