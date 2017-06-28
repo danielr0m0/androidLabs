@@ -48,4 +48,15 @@ public class Article {
     public void setUrl(String url) {
         Url = url;
     }
+
+    @Override
+    public String toString() {
+        return
+                "Author= " + Author + "\n" +
+                ", Title= " + Title + "\n" +
+                ", Description= " + Description + "\n" +
+                ", Url='" + Url + "\n"
+                ;
+    }
+
 }

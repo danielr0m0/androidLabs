@@ -3,20 +3,33 @@ package com.romodaniel.newsapp;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.TestMethod;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.romodaniel.newsapp.model.Article;
+
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ProgressBar progress;
-    private TextView textView;
+    private RecyclerView recyclerView;
+    private ArticleAdapter articleAdapter;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +37,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progress = (ProgressBar) findViewById(R.id.progressBar);
-        textView = (TextView) findViewById(R.id.displayJSON);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_article);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        articleAdapter= new ArticleAdapter();
+
+        recyclerView.setAdapter(articleAdapter);
+        
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -44,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    class NetworkTask extends AsyncTask<URL,Void,String> {
+    class NetworkTask extends AsyncTask<URL,Void,ArrayList<Article>> {
 
         @Override
         protected void onPreExecute() {
@@ -53,28 +78,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(URL... params) {
-            String result = null;
+        protected ArrayList<Article> doInBackground(URL... params) {
+            ArrayList<Article> result = null;
             URL url = NetworkUtils.buildUrl();
             try{
-                result = NetworkUtils.getResponseFromHttpUrl(url);
+                String json = NetworkUtils.getResponseFromHttpUrl(url);
+                result = NetworkUtils.parseJSON(json);
             }catch(IOException e){
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return result;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(final ArrayList<Article> data) {
+            super.onPostExecute(data);
 
             progress.setVisibility(View.GONE);
-
-            if(s==null){
-                textView.setText("Sorry, no result was received");
-            }else {
-                textView.setText(s);
-            }
 
         }
     }

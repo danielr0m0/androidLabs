@@ -16,17 +16,13 @@
         android:layout_gravity="center"
         android:visibility="invisible" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+  <RecyclerView
+      android:id="@+id/recyclerview_article"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/displayJSON"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-    </ScrollView>
+
+
 
 
 </LinearLayout>

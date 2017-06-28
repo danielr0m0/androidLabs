@@ -2,11 +2,18 @@ package com.romodaniel.newsapp;
 
 import android.net.Uri;
 
+import com.romodaniel.newsapp.model.Article;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -70,5 +77,22 @@ public class NetworkUtils {
         }finally {
             urlConnection.disconnect();
         }
+    }
+
+    public static ArrayList<Article> parseJSON(String json) throws JSONException{
+        ArrayList<Article> results = new ArrayList<>();
+        JSONObject main = new JSONObject(json);
+        JSONArray articles = main.getJSONArray("articles");
+
+        for (int i =0; i <articles.length(); i++){
+            JSONObject article = articles.getJSONObject(i);
+            String author = article.getString("author");
+            String title = article.getString("title");
+            String url = article.getString("url");
+            String description = article.getString("description");
+            Article art = new Article(author,title,description,url);
+            results.add(art);
+        }
+        return results;
     }
 }
