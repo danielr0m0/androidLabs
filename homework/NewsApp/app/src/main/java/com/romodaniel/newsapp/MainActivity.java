@@ -7,17 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.test.suitebuilder.TestMethod;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.romodaniel.newsapp.model.Article;
+import com.romodaniel.newsapp.model.NewsItem;
 
 import org.json.JSONException;
 
@@ -67,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    class NetworkTask extends AsyncTask<URL,Void,ArrayList<Article>> {
+    class NetworkTask extends AsyncTask<URL,Void,ArrayList<NewsItem>> {
 
         public NetworkTask() {
         }
@@ -79,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<Article> doInBackground(URL... params) {
-            ArrayList<Article> result = null;
+        protected ArrayList<NewsItem> doInBackground(URL... params) {
+            ArrayList<NewsItem> result = null;
             URL url = NetworkUtils.buildUrl();
             try{
                 String json = NetworkUtils.getResponseFromHttpUrl(url);
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final ArrayList<Article> data) {
+        protected void onPostExecute(final ArrayList<NewsItem> data) {
             super.onPostExecute(data);
             progress.setVisibility(View.GONE);
             if(data != null){

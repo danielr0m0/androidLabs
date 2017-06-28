@@ -2,7 +2,7 @@ package com.romodaniel.newsapp;
 
 import android.net.Uri;
 
-import com.romodaniel.newsapp.model.Article;
+import com.romodaniel.newsapp.model.NewsItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,8 +79,8 @@ public class NetworkUtils {
         }
     }
 
-    public static ArrayList<Article> parseJSON(String json) throws JSONException{
-        ArrayList<Article> results = new ArrayList<>();
+    public static ArrayList<NewsItem> parseJSON(String json) throws JSONException{
+        ArrayList<NewsItem> results = new ArrayList<>();
         JSONObject main = new JSONObject(json);
         JSONArray articles = main.getJSONArray("articles");
 
@@ -91,7 +91,7 @@ public class NetworkUtils {
             String url = article.getString("url");
             String date = article.getString("publishedAt");
             String description = article.getString("description");
-            Article art = new Article(author,title,description,url,date);
+            NewsItem art = new NewsItem(author,title,description,url,date);
             results.add(art);
         }
         return results;

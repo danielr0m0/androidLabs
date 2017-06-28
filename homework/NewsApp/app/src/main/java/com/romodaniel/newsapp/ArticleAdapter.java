@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.romodaniel.newsapp.model.Article;
+import com.romodaniel.newsapp.model.NewsItem;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,10 @@ import java.util.ArrayList;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleAdapterViewHolder> {
 
-    private ArrayList<Article> data;
+    private ArrayList<NewsItem> data;
     ItemClickListener listener;
 
-    public ArticleAdapter(ArrayList<Article> data, ItemClickListener listener) {
+    public ArticleAdapter(ArrayList<NewsItem> data, ItemClickListener listener) {
         this.data = data;
         this.listener = listener;
     }
@@ -56,17 +56,25 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
 
     public class ArticleAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView articleTextView;
+        TextView articleTitleView;
+        TextView articleDescriptionView;
+        TextView articleTimeView;
+
+
 
         public ArticleAdapterViewHolder(View itemView) {
             super(itemView);
-            articleTextView = (TextView) itemView.findViewById(R.id.article_data);
+            articleTitleView = (TextView) itemView.findViewById(R.id.article_title);
+            articleDescriptionView = (TextView) itemView.findViewById(R.id.article_description);
+            articleTimeView = (TextView) itemView.findViewById(R.id.article_time);
             itemView.setOnClickListener(this);
         }
 
         public void bind(int position) {
-            Article art = data.get(position);
-            articleTextView.setText(art.toString());
+            NewsItem art = data.get(position);
+            articleTitleView.setText(art.getTitle());
+            articleDescriptionView.setText(art.getDescription());
+            articleTimeView.setText(art.getDate());
         }
 
         @Override

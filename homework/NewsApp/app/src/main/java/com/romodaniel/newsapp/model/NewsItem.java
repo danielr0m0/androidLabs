@@ -4,14 +4,14 @@ package com.romodaniel.newsapp.model;
  * Created by drdan on 6/27/2017.
  */
 
-public class Article {
+public class NewsItem {
     private String Author;
     private String Title;
     private String Description;
     private String Url;
     private String Date;
 
-    public Article(String author, String title, String description, String url, String date) {
+    public NewsItem(String author, String title, String description, String url, String date) {
         Author = author;
         Title = title;
         Description = description;
