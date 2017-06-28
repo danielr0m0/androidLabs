@@ -61,6 +61,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
         public ArticleAdapterViewHolder(View itemView) {
             super(itemView);
             articleTextView = (TextView) itemView.findViewById(R.id.article_data);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(int position) {

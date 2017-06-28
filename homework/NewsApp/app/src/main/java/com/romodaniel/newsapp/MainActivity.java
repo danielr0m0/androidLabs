@@ -1,5 +1,7 @@
 package com.romodaniel.newsapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(int clickedItemIndex) {
                         String url = data.get(clickedItemIndex).getUrl();
                         Log.d(TAG, String.format("Url %s", url));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                     }
                 });
                 recyclerView.setAdapter(adapter);

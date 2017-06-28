@@ -89,8 +89,9 @@ public class NetworkUtils {
             String author = article.getString("author");
             String title = article.getString("title");
             String url = article.getString("url");
+            String date = article.getString("publishedAt");
             String description = article.getString("description");
-            Article art = new Article(author,title,description,url);
+            Article art = new Article(author,title,description,url,date);
             results.add(art);
         }
         return results;

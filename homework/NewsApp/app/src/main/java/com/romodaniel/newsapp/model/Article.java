@@ -9,12 +9,14 @@ public class Article {
     private String Title;
     private String Description;
     private String Url;
+    private String Date;
 
-    public Article(String author, String title, String description, String url) {
+    public Article(String author, String title, String description, String url, String date) {
         Author = author;
         Title = title;
         Description = description;
         Url = url;
+        Date= date;
     }
 
     public String getAuthor() {
@@ -49,13 +51,21 @@ public class Article {
         Url = url;
     }
 
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
     @Override
     public String toString() {
         return
-                "Author= " + Author + "\n" +
-                ", Title= " + Title + "\n" +
-                ", Description= " + Description + "\n" +
-                ", Url='" + Url + "\n"
+                "Author= " + Author + "\n\n" +
+                "Title= " + Title + "\n\n" +
+                "Description= " + Description + "\n\n" +
+                "Date=" + Date + "\n\n"
                 ;
     }
 
