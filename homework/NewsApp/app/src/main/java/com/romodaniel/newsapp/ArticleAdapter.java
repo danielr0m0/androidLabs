@@ -19,10 +19,17 @@ import java.util.ArrayList;
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleAdapterViewHolder> {
 
     private ArrayList<Article> data;
+    ItemClickListener listener;
 
-    public ArticleAdapter() {
-
+    public ArticleAdapter(ArrayList<Article> data, ItemClickListener listener) {
+        this.data = data;
+        this.listener = listener;
     }
+
+    public interface ItemClickListener {
+        void onItemClick(int clickedItemIndex);
+    }
+
 
     @Override
     public ArticleAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,8 +46,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
 
     @Override
     public void onBindViewHolder(ArticleAdapterViewHolder holder, int position) {
-        Article articleInfo= data.get(position);
-        holder.articleTextView.setText(articleInfo.toString());
+        holder.bind(position);
     }
 
     @Override
@@ -48,19 +54,24 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
         return data.size();
     }
 
-    public class ArticleAdapterViewHolder extends RecyclerView.ViewHolder{
+    public class ArticleAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public final TextView articleTextView;
+        TextView articleTextView;
 
         public ArticleAdapterViewHolder(View itemView) {
             super(itemView);
             articleTextView = (TextView) itemView.findViewById(R.id.article_data);
         }
 
-    }
+        public void bind(int position) {
+            Article art = data.get(position);
+            articleTextView.setText(art.toString());
+        }
 
-    public void setData(ArrayList<Article> data){
-        this.data=data;
-        notifyDataSetChanged();
+        @Override
+        public void onClick(View v) {
+            int pos = getAdapterPosition();
+            listener.onItemClick(pos);
+        }
     }
 }

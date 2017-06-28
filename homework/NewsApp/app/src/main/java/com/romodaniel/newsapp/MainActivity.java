@@ -24,11 +24,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    static final String TAG = "mainactivity";
+
     private ProgressBar progress;
     private RecyclerView recyclerView;
-    private ArticleAdapter articleAdapter;
-
-
 
 
     @Override
@@ -42,13 +42,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        articleAdapter= new ArticleAdapter();
 
-        recyclerView.setAdapter(articleAdapter);
-        
     }
 
 
@@ -70,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class NetworkTask extends AsyncTask<URL,Void,ArrayList<Article>> {
+
+        public NetworkTask() {
+        }
 
         @Override
         protected void onPreExecute() {
@@ -95,8 +94,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final ArrayList<Article> data) {
             super.onPostExecute(data);
-
             progress.setVisibility(View.GONE);
+            if(data != null){
+                ArticleAdapter adapter = new ArticleAdapter(data, new ArticleAdapter.ItemClickListener(){
+                    @Override
+                    public void onItemClick(int clickedItemIndex) {
+                        String url = data.get(clickedItemIndex).getUrl();
+                        Log.d(TAG, String.format("Url %s", url));
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+            }
 
         }
     }
