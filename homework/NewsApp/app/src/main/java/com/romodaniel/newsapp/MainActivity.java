@@ -37,11 +37,7 @@ public class MainActivity extends AppCompatActivity {
         progress = (ProgressBar) findViewById(R.id.progressBar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_article);
 
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
 
     }
 
@@ -49,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        NetworkTask task = new NetworkTask();
+        task.execute();
         return true;
     }
 
