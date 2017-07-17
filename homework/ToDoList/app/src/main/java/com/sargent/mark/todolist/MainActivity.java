@@ -13,14 +13,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 
+import com.sargent.mark.todolist.data.Category;
 import com.sargent.mark.todolist.data.Contract;
 import com.sargent.mark.todolist.data.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements AddToDoFragment.OnDialogCloseListener, UpdateToDoFragment.OnUpdateDialogCloseListener{
 
     private RecyclerView rv;
+    private Spinner spinner;
     private FloatingActionButton button;
     private DBHelper helper;
     private Cursor cursor;
@@ -44,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         });
         rv = (RecyclerView) findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<Category>(this, R.layout.support_simple_spinner_dropdown_item, Category.values()));
+
+
     }
 
     @Override
