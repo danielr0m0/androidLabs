@@ -58,8 +58,6 @@ public class AddToDoFragment extends DialogFragment{
         spinner.setAdapter(new ArrayAdapter<Category>(this.getActivity(), R.layout.support_simple_spinner_dropdown_item, Category.values()));
 
 
-
-
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -103,7 +103,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             descr.setText(description);
             due.setText(duedate);
             //set the category text
-            //see to see if its done or ot too
+            //see to see if its done or ot too sql store booleans in 0 and 1 note to self
             cat.setText(category);
             bool.setText(done);
             holder.itemView.setTag(id);

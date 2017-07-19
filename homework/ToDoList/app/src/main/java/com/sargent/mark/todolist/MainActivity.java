@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         helper = new DBHelper(this);
         db = helper.getWritableDatabase();
         cursor = getAllItems(db);
+        //cursor = getSelectedItems(db, "HOME");
 
         adapter = new ToDoListAdapter(cursor, new ToDoListAdapter.ItemClickListener() {
 
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
 
 
 
+
+
     }
 
     @Override
@@ -134,6 +137,23 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 null,
                 null,
                 null,
+                null,
+                null,
+                Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE
+        );
+    }
+    // add another cursor to do a filter with the main activity spinner
+    //3rd is the where and 4th is the clause
+    //looked up the documentation
+    private Cursor getSelectedItems(SQLiteDatabase db, String key){
+        // the ? will replace with the key to filter 
+        String where = Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + " = ?";
+        String[] q = {key};
+        return db.query(
+                Contract.TABLE_TODO.TABLE_NAME,
+                null,
+                where,
+                q,
                 null,
                 null,
                 Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE
