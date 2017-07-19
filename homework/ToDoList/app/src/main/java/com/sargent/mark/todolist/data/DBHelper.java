@@ -22,13 +22,15 @@ public class DBHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        //added a new cloumn for the category
+        //added a new cloumn for the category and check to see if its done or not
 
         String queryString = "CREATE TABLE " + Contract.TABLE_TODO.TABLE_NAME + " ("+
                 Contract.TABLE_TODO._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + " TEXT NOT NULL," +
                 Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION + " TEXT NOT NULL, " +
+                Contract.TABLE_TODO.COLUMN_NAME_DONE + " BOOLEAN, " +
                 Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE + " DATE " +
+
 
                 "); ";
 
@@ -38,6 +40,6 @@ public class DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       db.execSQL("drop table " + Contract.TABLE_TODO.TABLE_NAME + " if exists;");
+       //db.execSQL("drop table " + Contract.TABLE_TODO.TABLE_NAME + " if exists;");
     }
 }

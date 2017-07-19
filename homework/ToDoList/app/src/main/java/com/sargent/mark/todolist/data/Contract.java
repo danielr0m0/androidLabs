@@ -14,7 +14,8 @@ public class Contract {
 
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_DUE_DATE = "duedate";
-
+        //add new column for category and to check if it is done
         public static final String COLUMN_NAME_CATEGORY = "category";
+        public static final String COLUMN_NAME_DONE = "done";
     }
 }

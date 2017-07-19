@@ -38,6 +38,8 @@ public class AddToDoFragment extends DialogFragment{
         void closeDialog(int year, int month, int day, String description, String category);
     }
 
+
+    //add spinner to fragment so user can add the category
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_adder, container, false);

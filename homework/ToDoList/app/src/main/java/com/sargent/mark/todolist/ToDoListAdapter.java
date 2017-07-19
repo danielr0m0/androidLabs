@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.sargent.mark.todolist.data.Contract;
@@ -46,13 +47,14 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
     //to update
     public interface ItemClickListener {
-        void onItemClick(int pos, String Category, String description, String duedate, long id);
+        void onItemClick(int pos, String Category, String description, String duedate, String category, long id);
     }
 
     public ToDoListAdapter(Cursor cursor, ItemClickListener listener) {
         this.cursor = cursor;
         this.listener = listener;
     }
+
 
     public void swapCursor(Cursor newCursor){
         if (cursor != null) cursor.close();
@@ -67,17 +69,22 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         TextView descr;
         TextView due;
         TextView cat;
+        TextView bool;
+        CheckBox checkBox;
         String duedate;
         String description;
         String category;
+        String done;
         long id;
 
 
         ItemHolder(View view) {
             super(view);
+            //checkBox = (CheckBox) view.findViewById(R.id.checkBox);
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
             cat = (TextView) view.findViewById(R.id.category);
+            bool = (TextView) view.findViewById(R.id.done);
             view.setOnClickListener(this);
         }
 
@@ -88,21 +95,26 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             duedate = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE));
             description = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION));
-            //
+            //get the category
             category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
+            done  = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DONE));
+
 
             descr.setText(description);
             due.setText(duedate);
-            //
+            //set the category text
+            //see to see if its done or ot too
             cat.setText(category);
+            bool.setText(done);
             holder.itemView.setTag(id);
         }
 
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            listener.onItemClick(pos, category, description, duedate,  id);
+            listener.onItemClick(pos, category, description, duedate, category, id);
         }
+
     }
 
 }
