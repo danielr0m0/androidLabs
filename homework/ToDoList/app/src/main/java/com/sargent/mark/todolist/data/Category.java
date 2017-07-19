@@ -5,5 +5,8 @@ package com.sargent.mark.todolist.data;
  */
 
 public enum Category {
-    WORK, SCHOOL, HOME, ALLofABOVE
+    WORK,
+    SCHOOL,
+    HOME,
+    ALLofABOVE
 }

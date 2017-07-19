@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         rv = (RecyclerView) findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(new ArrayAdapter<Category>(this, R.layout.support_simple_spinner_dropdown_item, Category.values()));
 
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         );
     }
 
-    private long addToDo(SQLiteDatabase db, String category, String description, String duedate) {
+    private long addToDo(SQLiteDatabase db, String description, String duedate, String category) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION, description);
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE, duedate);
