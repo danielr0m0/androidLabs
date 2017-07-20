@@ -16,7 +16,6 @@ import android.widget.TimePicker;
 
 import com.sargent.mark.todolist.data.Category;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**

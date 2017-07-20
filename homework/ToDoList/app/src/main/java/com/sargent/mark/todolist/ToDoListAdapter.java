@@ -84,22 +84,26 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         ItemHolder(View view) {
             super(view);
             checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    listener.onChecked(isChecked,id);
-
-                }
-            });
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
             cat = (TextView) view.findViewById(R.id.category);
             donev = (TextView) view.findViewById(R.id.done);
+            //add a lister to check box to see if it changed
+            checkBox.setChecked(false);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    listener.onChecked(isChecked,id);
+                }
+            });
             view.setOnClickListener(this);
         }
 
+        //have a bug where item above was checked and deleted the item below will be check after
+        //the above was removed
+        //made checkbox uncheck before had
         public void bind(ItemHolder holder, int pos) {
+            checkBox.setChecked(false);
             cursor.moveToPosition(pos);
             id = cursor.getLong(cursor.getColumnIndex(Contract.TABLE_TODO._ID));
             Log.d(TAG, "deleting id: " + id);
@@ -111,15 +115,15 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             //check if it is done or not if done checked
             done  = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DONE));
-            int bool  = Integer.parseInt(done);
-            if(bool>0){
-                checkBox.setChecked(true);
-            }
 
             descr.setText(description);
             due.setText(duedate);
             //set the category text
             //see to see if its done or ot too sql store booleans in 0 and 1 note to self
+            int mark = Integer.parseInt(done);
+            if (mark>0){
+                checkBox.setChecked(true);
+            }
             cat.setText(category);
             donev.setText(done);
             holder.itemView.setTag(id);
@@ -130,11 +134,6 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            if(checkBox.isChecked()){
-                listener.onChecked(true,id);
-            }else{
-                listener.onChecked(false,id);
-            }
             listener.onItemClick(pos, category, description, duedate, category, id);
         }
 

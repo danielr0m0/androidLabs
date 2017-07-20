@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
 
     }
 
-
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -225,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     public int updateDone( boolean done, long id){
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DONE, done);
-        adapter.swapCursor(getAllItems(db));
         return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
 
     }
