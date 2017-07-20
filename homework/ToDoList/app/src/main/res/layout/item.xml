@@ -48,14 +48,14 @@
         android:paddingLeft="10dp" />
 
      <!--TO SEEE IF DONE IS CHANGED AND ADDED TO DATABASE so i dont have to close the
-     app and reopen-->
-    <TextView
-        android:id="@+id/done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Category"
-        android:textSize="18dp"
-        android:layout_gravity="center"
-        android:paddingLeft="10dp" />
+     app and reopen see the value-->
+    <!--<TextView-->
+        <!--android:id="@+id/done"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Category"-->
+        <!--android:textSize="18dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:paddingLeft="10dp" />-->
 
 </LinearLayout>

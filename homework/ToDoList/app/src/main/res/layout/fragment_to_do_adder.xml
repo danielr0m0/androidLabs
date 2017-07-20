@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--add scroll view for small screen-->
+<ScrollView android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:fadeScrollbars="false"
+    >
+
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,7 +45,7 @@
 
     <DatePicker
         android:id="@+id/datePicker"
-        android:layout_width="match_parent"
+        android:layout_width="325dp"
         android:layout_height="0dip"
         android:layout_weight=".8" />
 
@@ -50,3 +57,4 @@
         android:text="Add" />
 
 </LinearLayout>
+</ScrollView>

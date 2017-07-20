@@ -72,7 +72,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         TextView descr;
         TextView due;
         TextView cat;
-        TextView donev;
+        //TextView donev;
         CheckBox checkBox;
         String duedate;
         String description;
@@ -87,9 +87,8 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
             cat = (TextView) view.findViewById(R.id.category);
-            donev = (TextView) view.findViewById(R.id.done);
+            //donev = (TextView) view.findViewById(R.id.done);
             //add a lister to check box to see if it changed
-            checkBox.setChecked(false);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -125,7 +124,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
                 checkBox.setChecked(true);
             }
             cat.setText(category);
-            donev.setText(done);
+            //donev.setText(done);
             holder.itemView.setTag(id);
         }
 
