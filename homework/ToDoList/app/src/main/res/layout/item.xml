@@ -14,7 +14,7 @@
         android:paddingTop="30dp"
         />
 
-    //added layout to get the format i want
+    <!--added layout to get the format i want-->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -47,7 +47,8 @@
         android:layout_gravity="center"
         android:paddingLeft="10dp" />
 
-    // TO SEEE IF DONE IS CHANGED AND ADDED TO DATABASE
+     <!--TO SEEE IF DONE IS CHANGED AND ADDED TO DATABASE so i dont have to close the
+     app and reopen-->
     <TextView
         android:id="@+id/done"
         android:layout_width="wrap_content"

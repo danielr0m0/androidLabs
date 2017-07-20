@@ -14,6 +14,7 @@ import android.widget.Spinner;
 
 import com.sargent.mark.todolist.data.Category;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -63,10 +64,13 @@ public class UpdateToDoFragment extends DialogFragment {
 
         sp = (Spinner) view.findViewById(R.id.spinner);
         sp = (Spinner) view.findViewById(R.id.category);
-        sp.setAdapter(new ArrayAdapter<Category>(this.getActivity(), R.layout.support_simple_spinner_dropdown_item, Category.values()));
+
+        sp.setAdapter(new ArrayAdapter<Category>(this.getActivity(), R.layout.support_simple_spinner_dropdown_item, Category.getList()));
 
         // need to put the spinner on category selected. =
         //getting the index of the category
+
+
         sp.setSelection(getCategoryIndex(sp,getArguments().getString("category")));
 
         int year = getArguments().getInt("year");

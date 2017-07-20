@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sargent.mark.todolist.data.Contract;
@@ -48,6 +49,8 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     //to update
     public interface ItemClickListener {
         void onItemClick(int pos, String Category, String description, String duedate, String category, long id);
+
+        void onChecked(boolean done, long id);
     }
 
     public ToDoListAdapter(Cursor cursor, ItemClickListener listener) {
@@ -69,7 +72,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         TextView descr;
         TextView due;
         TextView cat;
-        TextView bool;
+        TextView donev;
         CheckBox checkBox;
         String duedate;
         String description;
@@ -80,11 +83,19 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
         ItemHolder(View view) {
             super(view);
-            //checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+            checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    listener.onChecked(isChecked,id);
+
+                }
+            });
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
             cat = (TextView) view.findViewById(R.id.category);
-            bool = (TextView) view.findViewById(R.id.done);
+            donev = (TextView) view.findViewById(R.id.done);
             view.setOnClickListener(this);
         }
 
@@ -97,23 +108,37 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             description = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION));
             //get the category
             category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
-            done  = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DONE));
 
+            //check if it is done or not if done checked
+            done  = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DONE));
+            int bool  = Integer.parseInt(done);
+            if(bool>0){
+                checkBox.setChecked(true);
+            }
 
             descr.setText(description);
             due.setText(duedate);
             //set the category text
             //see to see if its done or ot too sql store booleans in 0 and 1 note to self
             cat.setText(category);
-            bool.setText(done);
+            donev.setText(done);
             holder.itemView.setTag(id);
         }
 
+
+        //to check if click or unclick
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
+            if(checkBox.isChecked()){
+                listener.onChecked(true,id);
+            }else{
+                listener.onChecked(false,id);
+            }
             listener.onItemClick(pos, category, description, duedate, category, id);
         }
+
+
 
     }
 

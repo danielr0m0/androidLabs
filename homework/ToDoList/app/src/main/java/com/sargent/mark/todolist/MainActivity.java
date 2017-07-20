@@ -13,8 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     private DBHelper helper;
     private Cursor cursor;
     private SQLiteDatabase db;
-    ToDoListAdapter adapter;
+    private ToDoListAdapter adapter;
     private final String TAG = "mainactivity";
 
 
@@ -55,12 +57,35 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         rv = (RecyclerView) findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-
+        //set the spinner to all as default
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(new ArrayAdapter<Category>(this, R.layout.support_simple_spinner_dropdown_item, Category.values()));
+        spinner.setSelection(spinner.getCount() -1);
+
+        //when user select a category it shows all of the todos for that category
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(spinner.getItemAtPosition(position).toString().equals("ALL")){
+                    adapter.swapCursor(getAllItems(db));
+
+                }else {
+                    cursor = getSelectedItems(db, spinner.getItemAtPosition(position).toString());
+                    adapter.swapCursor(cursor);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
 
 
     }
+
+
 
     @Override
     protected void onStop() {
@@ -76,12 +101,14 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         helper = new DBHelper(this);
         db = helper.getWritableDatabase();
         cursor = getAllItems(db);
+        //testing cursor
         //cursor = getSelectedItems(db, "HOME");
 
         adapter = new ToDoListAdapter(cursor, new ToDoListAdapter.ItemClickListener() {
 
             @Override
             public void onItemClick(int pos, String s, String description, String duedate, String category, long id) {
+
                 Log.d(TAG, "item click id: " + id);
                 String[] dateInfo = duedate.split("-");
                 int year = Integer.parseInt(dateInfo[0].replaceAll("\\s",""));
@@ -93,6 +120,13 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 UpdateToDoFragment frag = UpdateToDoFragment.newInstance(year, month, day, description,category, id);
                 frag.show(fm, "updatetodofragment");
             }
+
+            @Override
+            public void onChecked(boolean done, long id) {
+                updateDone(done,id);
+            }
+
+
         });
 
         rv.setAdapter(adapter);
@@ -114,10 +148,8 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         }).attachToRecyclerView(rv);
 
 
-
-
-
     }
+
 
     @Override
     public void closeDialog(int year, int month, int day, String description, String category) {
@@ -146,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     //3rd is the where and 4th is the clause
     //looked up the documentation
     private Cursor getSelectedItems(SQLiteDatabase db, String key){
-        // the ? will replace with the key to filter 
+        // the ? will replace with the key to filter
         String where = Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + " = ?";
         String[] q = {key};
         return db.query(
@@ -167,11 +199,13 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY, category);
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DONE, false);
 
+        spinner.setSelection(spinner.getCount() -1);
         return db.insert(Contract.TABLE_TODO.TABLE_NAME, null, cv);
     }
 
     private boolean removeToDo(SQLiteDatabase db, long id) {
         Log.d(TAG, "deleting id: " + id);
+        spinner.setSelection(spinner.getCount() -1);
         return db.delete(Contract.TABLE_TODO.TABLE_NAME, Contract.TABLE_TODO._ID + "=" + id, null) > 0;
     }
 
@@ -188,10 +222,21 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 
+    public int updateDone( boolean done, long id){
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_DONE, done);
+        adapter.swapCursor(getAllItems(db));
+        return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
+
+    }
+
+
+
     @Override
     public void closeUpdateDialog(int year, int month, int day, String description, String category, long id) {
         updateToDo(db, year, month, day, description, category, id);
         adapter.swapCursor(getAllItems(db));
+        spinner.setSelection(spinner.getCount() -1);
     }
 
 

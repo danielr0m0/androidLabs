@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 
 import com.sargent.mark.todolist.data.Category;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -55,7 +56,8 @@ public class AddToDoFragment extends DialogFragment{
         dp.updateDate(year, month, day);
 
         spinner = (Spinner) view.findViewById(R.id.category);
-        spinner.setAdapter(new ArrayAdapter<Category>(this.getActivity(), R.layout.support_simple_spinner_dropdown_item, Category.values()));
+
+        spinner.setAdapter(new ArrayAdapter<Category>(this.getActivity(), R.layout.support_simple_spinner_dropdown_item, Category.getList()));
 
 
         add.setOnClickListener(new View.OnClickListener() {
