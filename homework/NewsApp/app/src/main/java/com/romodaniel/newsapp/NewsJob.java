@@ -1,19 +1,20 @@
 package com.romodaniel.newsapp;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+
 
 /**
  * Created by drdan on 7/24/2017.
  */
 
-public class NewsJob extends JobService {
+public class NewsJob extends com.firebase.jobdispatcher.JobService {
     AsyncTask mBackgroundTask;
 
     @Override
-    public boolean onStartJob(final JobParameters job) {
+    public boolean onStartJob(final com.firebase.jobdispatcher.JobParameters job) {
         mBackgroundTask = new AsyncTask() {
             @Override
             protected void onPreExecute() {
@@ -42,8 +43,7 @@ public class NewsJob extends JobService {
     }
 
     @Override
-    public boolean onStopJob(JobParameters job) {
-
+    public boolean onStopJob(com.firebase.jobdispatcher.JobParameters job) {
         if (mBackgroundTask != null) mBackgroundTask.cancel(false);
 
         return true;
