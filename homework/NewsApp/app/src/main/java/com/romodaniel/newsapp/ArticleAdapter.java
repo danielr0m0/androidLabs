@@ -2,15 +2,20 @@ package com.romodaniel.newsapp;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.romodaniel.newsapp.data.Contract;
 import com.romodaniel.newsapp.data.NewsItem;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -38,7 +43,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
 
     @Override
     public ArticleAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAddToParentImmediately= false;
 
@@ -64,6 +69,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
         TextView articleTitleView;
         TextView articleDescriptionView;
         TextView articleTimeView;
+        ImageView articleImageView;
 
 
 
@@ -72,6 +78,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
             articleTitleView = (TextView) itemView.findViewById(R.id.article_title);
             articleDescriptionView = (TextView) itemView.findViewById(R.id.article_description);
             articleTimeView = (TextView) itemView.findViewById(R.id.article_time);
+            articleImageView = (ImageView) itemView.findViewById(R.id.image);
             itemView.setOnClickListener(this);
         }
 
@@ -80,6 +87,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
             articleTitleView.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_TITLE)));
             articleDescriptionView.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_DESCRIPTION)));
             articleTimeView.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_PUBLISHED_DATE)));
+            String url = cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_IMAGE_URL));
+            Log.d("urltoimg", url);
+            if(url != null){
+                Picasso.with(context)
+                        .load(url)
+                        .into(articleImageView);
+            }
         }
 
         @Override

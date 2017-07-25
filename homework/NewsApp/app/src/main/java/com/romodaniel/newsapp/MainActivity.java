@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirst = prefs.getBoolean("isfirst", true);
 
-        if (isFirst){
+
             load();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("isfirst", false);
             editor.commit();
-        }
+
 
       //  ScheduleUtilities.scheduleRefresh(this);
 

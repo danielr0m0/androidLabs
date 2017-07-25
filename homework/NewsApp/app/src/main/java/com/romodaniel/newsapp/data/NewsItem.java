@@ -12,13 +12,7 @@ public class NewsItem {
     private String Url;
     private String Date;
 
-    public NewsItem(String author, String title, String description, String url, String date) {
-        Author = author;
-        Title = title;
-        Description = description;
-        Url = url;
-        Date= date;
-    }
+
 
     public NewsItem(String author, String title, String description, String imageUrl, String url, String date) {
         Author = author;

@@ -91,7 +91,8 @@ public class NetworkUtils {
             String url = article.getString("url");
             String date = article.getString("publishedAt");
             String description = article.getString("description");
-            NewsItem art = new NewsItem(author,title,description,url,date);
+            String imgUrl = article.getString("urlToImage");
+            NewsItem art = new NewsItem(author,title,description,imgUrl,url,date);
             results.add(art);
         }
         return results;
