@@ -2,7 +2,7 @@ package com.romodaniel.newsapp;
 
 import android.net.Uri;
 
-import com.romodaniel.newsapp.model.NewsItem;
+import com.romodaniel.newsapp.data.NewsItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,4 +96,5 @@ public class NetworkUtils {
         }
         return results;
     }
+
 }

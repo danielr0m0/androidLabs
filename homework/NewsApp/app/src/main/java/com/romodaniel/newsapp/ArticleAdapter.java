@@ -1,13 +1,15 @@
 package com.romodaniel.newsapp;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.romodaniel.newsapp.model.NewsItem;
+import com.romodaniel.newsapp.data.Contract;
+import com.romodaniel.newsapp.data.NewsItem;
 
 import java.util.ArrayList;
 
@@ -19,15 +21,18 @@ import java.util.ArrayList;
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleAdapterViewHolder> {
 
     private ArrayList<NewsItem> data;
+    private Cursor cursor;
+    private Context context;
+    public static final String TAG = "articleAdapter";
     ItemClickListener listener;
 
-    public ArticleAdapter(ArrayList<NewsItem> data, ItemClickListener listener) {
-        this.data = data;
+    public ArticleAdapter(Cursor cursor, ItemClickListener listener) {
+        this.cursor = cursor;
         this.listener = listener;
     }
 
     public interface ItemClickListener {
-        void onItemClick(int clickedItemIndex);
+        void onItemClick(Cursor cursor, int clickedItemIndex);
     }
 
 
@@ -51,7 +56,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return cursor.getCount();
     }
 
     public class ArticleAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -71,16 +76,16 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleA
         }
 
         public void bind(int position) {
-            NewsItem art = data.get(position);
-            articleTitleView.setText(art.getTitle());
-            articleDescriptionView.setText(art.getDescription());
-            articleTimeView.setText(art.getDate());
+            cursor.moveToPosition(position);
+            articleTitleView.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_TITLE)));
+            articleDescriptionView.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_DESCRIPTION)));
+            articleTimeView.setText(cursor.getString(cursor.getColumnIndex(Contract.TABLE_ARTICLES.COLUMN_NAME_PUBLISHED_DATE)));
         }
 
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            listener.onItemClick(pos);
+            listener.onItemClick(cursor, pos);
         }
     }
 }
